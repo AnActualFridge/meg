@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"sync"
 	"time"
+	"strings"
 )
 
 const (
@@ -111,6 +112,12 @@ func main() {
 	for _, path := range paths {
 		for _, host := range hosts {
 
+			//Fix for Windows line endings:
+			// Check if the string contains "\r"
+			if strings.Contains(host, "\r") {
+				// Remove "\r" from the string
+				host = strings.ReplaceAll(host, "\r", "")
+			}
 			// the host portion may contain a path prefix,
 			// so we should strip that off and add it to
 			// the beginning of the path.
